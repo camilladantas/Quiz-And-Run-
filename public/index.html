@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#5c94fc">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Quiz & Run - Super Mario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app">
+        <header class="hud">
+            <div class="hud-block">
+                <div class="hud-label">MARIO</div>
+                <div class="hud-values">
+                    <div id="livesContainer" class="lives"></div>
+                    <div class="hud-coins">★ <span id="scoreText">000</span></div>
+                </div>
+            </div>
+            <div class="hud-block hud-center">
+                <div class="hud-label">WORLD</div>
+                <div class="hud-value">1-1</div>
+            </div>
+            <div class="hud-block hud-right">
+                <div class="hud-label">TIME</div>
+                <div id="hudTime" class="hud-value">2:00</div>
+            </div>
+        </header>
+
+        <div id="trackArea" class="track-area">
+            <div class="sky-layer">
+                <div class="smb-cloud cloud1"></div>
+                <div class="smb-cloud cloud2"></div>
+                <div class="smb-cloud cloud3"></div>
+                <div class="hill hill-back"></div>
+                <div class="hill hill-mid"></div>
+                <div class="hill hill-front"></div>
+                <div class="bush bush1"><span class="bush-blob side"></span><span class="bush-blob center"></span><span class="bush-blob side"></span></div>
+                <div class="bush bush2"><span class="bush-blob side"></span><span class="bush-blob center"></span><span class="bush-blob side"></span></div>
+            </div>
+
+            <div class="enemy-lane">
+                <div id="enemy" class="actor"></div>
+            </div>
+
+            <div id="playerLane" class="player-lane">
+                <div id="obstaclesContainer" class="obstacles"></div>
+                <div id="player" class="actor"></div>
+                <div id="flagpole" class="flagpole"></div>
+                <div id="castle" class="castle-wrap"></div>
+            </div>
+
+            <div class="ground"></div>
+        </div>
+
+        <main class="quiz-area">
+            <div class="timer-row">
+                <div class="timer-track">
+                    <div id="timerBar" class="timer-bar"></div>
+                </div>
+                <span id="timerNum" class="timer-num">2:00</span>
+            </div>
+
+            <section class="retro-box question-box">
+                <div id="obstacleIcon"></div>
+                <span id="questionProgress" class="question-progress">1/6</span>
+                <h2 id="questionText" class="question-text">Carregando pergunta...</h2>
+            </section>
+
+            <div id="optionsContainer" class="options-list"></div>
+        </main>
+    </div>
+
+    <div id="gameOverScreen" class="game-over hidden">
+        <h1 id="gameOverTitle" class="game-over-title">FIM DE JOGO</h1>
+        <p id="gameOverMsg" class="game-over-msg"></p>
+        <p id="gameOverScore" class="game-over-score"></p>
+        <button type="button" onclick="location.reload()" class="retro-btn replay-btn">JOGAR NOVAMENTE</button>
+    </div>
+
+    <script src="/js/game.js"></script>
+</body>
+</html>
