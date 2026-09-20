@@ -1,12 +1,4 @@
-// Perguntas temporárias (serão substituídas pelo Firebase em breve)
-const allQuestions = [
-    { text: "Considerando a geografia política do país, qual é a capital federal do Brasil?", options: ["São Paulo", "Brasília", "Rio de Janeiro", "Salvador"], correctIndex: 1 },
-    { text: "Quanto é 8 x 7?", options: ["54", "56", "64", "48"], correctIndex: 1 },
-    { text: "Qual é o maior planeta do nosso sistema solar?", options: ["Terra", "Saturno", "Júpiter", "Netuno"], correctIndex: 2 },
-    { text: "Quem pintou a Mona Lisa?", options: ["Van Gogh", "Da Vinci", "Picasso", "Michelangelo"], correctIndex: 1 },
-    { text: "Qual elemento químico tem o símbolo 'O'?", options: ["Ouro", "Oxigênio", "Ósmio", "Ozônio"], correctIndex: 1 },
-    { text: "Em que continente fica o Egito?", options: ["Ásia", "Europa", "América", "África"], correctIndex: 3 }
-];
+let allQuestions = [];
 
 const OPTION_LETTERS = ['A', 'B', 'C', 'D'];
 
@@ -244,8 +236,17 @@ let timeLeft = QUESTION_TIME;
 let inputLocked = false;
 let gameOver = false;
 
-const STEP = FINISH_LINE / allQuestions.length;
-const obstaclePositions = allQuestions.map((_, i) => (i + 1) * STEP);
+let STEP;
+let obstaclePositions = [];
+let trackObstacles = [];
+
+function embaralharArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
 // ===== Elementos =====
 const playerEl = document.getElementById('player');
@@ -290,12 +291,18 @@ const sfx = {
     lose: () => { playTone(220, 0.3, 'sawtooth'); setTimeout(() => playTone(110, 0.4, 'sawtooth'), 150); }
 };
 
-function currentObstacleType() {
-    return OBSTACLE_TYPES[currentQuestionIndex % OBSTACLE_TYPES.length];
-}
 
 // ===== Inicialização =====
 function startGame() {
+    STEP = FINISH_LINE / allQuestions.length;
+    obstaclePositions = allQuestions.map((_, i) => (i + 1) * STEP);
+
+    trackObstacles = allQuestions.map(() => {
+        const randomIndex = Math.floor(Math.random() * OBSTACLE_TYPES.length);
+        return OBSTACLE_TYPES[randomIndex];
+    });
+
+
     playerEl.innerHTML = pixelsToSvg(SPRITES.mario);
     enemyEl.innerHTML = pixelsToSvg(SPRITES.koopa);
     document.getElementById('castle').innerHTML = pixelsToSvg(SPRITES.castle);
@@ -315,7 +322,7 @@ function startGame() {
 function renderObstacles() {
     obstaclesContainer.innerHTML = '';
     obstaclePositions.forEach((pos, i) => {
-        const type = OBSTACLE_TYPES[i % OBSTACLE_TYPES.length];
+        const type = trackObstacles[i];
         const el = document.createElement('div');
         el.id = `obstacle-${i}`;
         el.className = `obstacle obstacle-${type}` + (i === 0 ? ' obstacle-current' : '');
@@ -344,7 +351,7 @@ function updateScore(delta) {
 function loadQuestion() {
     if (currentQuestionIndex >= allQuestions.length) return;
     const q = allQuestions[currentQuestionIndex];
-    const type = currentObstacleType();
+    const type = trackObstacles[currentQuestionIndex];
 
     document.querySelectorAll('.obstacle').forEach((o) => o.classList.remove('obstacle-current'));
     const currentObstacle = document.getElementById(`obstacle-${currentQuestionIndex}`);
@@ -559,4 +566,22 @@ document.addEventListener('keydown', (event) => {
     if (btn) btn.click();
 });
 
-startGame();
+async function carregarPerguntas() {
+    try {
+        const resposta = await fetch('/api/perguntas');
+        let perguntasDoBanco = await resposta.json();
+
+        embaralharArray(perguntasDoBanco);
+        
+        allQuestions = perguntasDoBanco;
+        console.log("Perguntas carregadas do Firebase:", allQuestions);
+        
+        startGame(); 
+
+    } catch (error) {
+        console.error("Erro ao conectar com o servidor:", error);
+        alert("Não foi possível carregar as perguntas. Tente novamente.");
+    }
+}
+
+carregarPerguntas();
