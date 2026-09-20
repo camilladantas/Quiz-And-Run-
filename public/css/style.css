@@ -687,12 +687,35 @@ body {
 }
 
 @media (min-width: 768px) {
-    .track-area {
-        height: 36%;
-        min-height: 200px;
-        max-height: none;
+    body {
+        background-color: #222; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
+    .app {
+        max-width: 1100px; 
+        height: 95vh; 
+        max-height: 880px;
+        min-height: 600px;
+        border: 4px solid #fff;
+        border-radius: 8px; 
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+        position: relative; 
+        overflow: hidden;
+        background: #5c94fc; 
+    }
+
+ 
+    .track-area { 
+        height: 28%; 
+        min-height: 170px; 
+        max-height: 220px; 
+    }
+    
+    .track-world { justify-content: flex-end; }
+    
     .enemy-lane { height: 40px; }
     .player-lane { height: 96px; }
     .ground { height: 24px; }
@@ -703,19 +726,79 @@ body {
     .flagpole { right: 118px; }
     .flagpole svg { width: 24px; height: 90px; }
     .obstacle svg { width: 44px; }
-    .obstacle-pipe svg,
-    .obstacle-piranha .pipe-svg { width: 48px; }
+    .obstacle-pipe svg, .obstacle-piranha .pipe-svg { width: 48px; }
     .obstacle-piranha .piranha-svg { width: 40px; }
-    .obstacle-question svg,
-    .obstacle-brick svg { width: 38px; }
+    .obstacle-question svg, .obstacle-brick svg { width: 38px; }
 
+    /* 2. Reduzimos o padding do topo de 24px para 12px para puxar tudo para cima */
     .quiz-area {
-        padding: 12px 16px 16px;
-        gap: 10px;
+        padding: 12px 40px 30px; 
+        gap: 16px; 
     }
 
-    .question-text { font-size: 12px; }
-    .option-btn { font-size: 5px; min-height: 54px; }
+    /* 3. A caixa da pergunta fica um pouco mais compacta */
+    .question-box {
+        min-height: 100px; /* Antes era 120px */
+        padding: 20px 20px 20px 56px; 
+    }
+
+    .question-text { 
+        font-size: 16px; 
+        line-height: 1.6;
+    }
+
+    .option-btn { 
+        font-size: 14px !important; 
+        min-height: 64px; 
+        height: auto !important;
+        padding: 12px 20px !important;
+        flex-shrink: 0; 
+    }
+
+    .option-letter {
+        width: 2.2rem;
+        height: 2.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    
+    body {
+        background-color: #5c94fc; 
+        display: block;
+    }
+
+    .app {
+        max-width: 100%;
+        height: 100%;
+        height: 100dvh;
+        max-height: none;
+        min-height: 100dvh;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .track-area { 
+        height: 32%; 
+        min-height: 200px; 
+    }
+
+    .quiz-area {
+        padding: 20px 32px 24px; 
+        gap: 14px; 
+    }
+
+    .question-box {
+        min-height: 110px;
+        padding: 20px 20px 20px 56px; 
+    }
+    
+    .option-btn {
+        min-height: 70px; 
+    }
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
