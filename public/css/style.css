@@ -717,3 +717,46 @@ body {
     .question-text { font-size: 10px; }
     .option-btn { min-height: 42px; padding: 8px 10px; font-size: 10px; }
 }
+
+
+
+
+.option-btn {
+    height: auto !important;
+    min-height: 48px;
+    padding: 12px !important;
+    white-space: normal !important; 
+    word-wrap: break-word;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .option-btn {
+        font-size: 0.8rem; 
+    }
+    
+    .option-letter {
+        font-size: 0.9rem;
+        padding: 4px 8px;
+    }
+
+    #questionText {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    
+    .pixel-sprite {
+        max-height: 25px; 
+    }
+    
+    #castle .pixel-sprite {
+        max-height: 40px;
+    }
+
+    #trackArea {
+        height: 60px; 
+    }
+}
