@@ -755,10 +755,11 @@ body {
 }
 
 @media (max-width: 767px) {
+    /* 1. Diminui a tela do Mario e dos obstáculos */
     .track-area {
-        height: clamp(180px, 29dvh, 250px);
-        min-height: 180px;
-        max-height: 250px;
+        height: clamp(120px, 20dvh, 160px); /* Valores reduzidos */
+        min-height: 120px;
+        max-height: 160px;
     }
 
     .track-world {
@@ -780,10 +781,11 @@ body {
         gap: 10px;
     }
 
+    /* 2. Encolhe a altura da caixa da pergunta */
     .question-box {
-        max-height: 30%;
-        min-height: 90px;
-        padding: 28px 12px 14px 42px;
+        max-height: 25%; /* Antes era 30% */
+        min-height: 70px; /* Antes era 90px */
+        padding: 20px 12px 14px 42px; /* Reduzi o espaço de cima de 28px para 20px */
     }
 
     .question-text {
@@ -795,9 +797,10 @@ body {
         font-size: 8px;
     }
 
+    /* 3. Aumenta as caixas de resposta para ocupar o novo espaço */
     .option-btn {
-        min-height: 68px;
-        padding: 12px 10px !important;
+        min-height: 80px; /* Aumentou de 68px para 80px */
+        padding: 16px 10px !important; /* Aumentou o preenchimento de 12px para 16px */
         font-size: 9px !important;
     }
 
