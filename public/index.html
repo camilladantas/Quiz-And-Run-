@@ -10,7 +10,7 @@
     <title>Quiz & Run - Super Mario</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css?v=3">
+    <link rel="stylesheet" href="/css/style.css?v=6">
 </head>
 <body>
     <div class="app">
@@ -33,29 +33,31 @@
         </header>
 
         <div id="trackArea" class="track-area">
-            <div class="sky-layer">
-                <div class="smb-cloud cloud1"></div>
-                <div class="smb-cloud cloud2"></div>
-                <div class="smb-cloud cloud3"></div>
-                <div class="hill hill-back"></div>
-                <div class="hill hill-mid"></div>
-                <div class="hill hill-front"></div>
-                <div class="bush bush1"><span class="bush-blob side"></span><span class="bush-blob center"></span><span class="bush-blob side"></span></div>
-                <div class="bush bush2"><span class="bush-blob side"></span><span class="bush-blob center"></span><span class="bush-blob side"></span></div>
-            </div>
+            <div id="trackWorld" class="track-world">
+                <div class="sky-layer">
+                    <div class="smb-cloud cloud1"></div>
+                    <div class="smb-cloud cloud2"></div>
+                    <div class="smb-cloud cloud3"></div>
+                    <div class="hill hill-back"></div>
+                    <div class="hill hill-mid"></div>
+                    <div class="hill hill-front"></div>
+                    <div class="bush bush1"><span class="bush-blob side"></span><span class="bush-blob center"></span><span class="bush-blob side"></span></div>
+                    <div class="bush bush2"><span class="bush-blob side"></span><span class="bush-blob center"></span><span class="bush-blob side"></span></div>
+                </div>
 
-            <div class="enemy-lane">
-                <div id="enemy" class="actor"></div>
-            </div>
+                <div class="enemy-lane">
+                    <div id="enemy" class="actor"></div>
+                </div>
 
-            <div id="playerLane" class="player-lane">
-                <div id="obstaclesContainer" class="obstacles"></div>
-                <div id="player" class="actor"></div>
-                <div id="flagpole" class="flagpole"></div>
-                <div id="castle" class="castle-wrap"></div>
-            </div>
+                <div id="playerLane" class="player-lane">
+                    <div id="obstaclesContainer" class="obstacles"></div>
+                    <div id="player" class="actor"></div>
+                    <div id="flagpole" class="flagpole"></div>
+                    <div id="castle" class="castle-wrap"></div>
+                </div>
 
-            <div class="ground"></div>
+                <div class="ground"></div>
+            </div>
         </div>
 
         <main class="quiz-area">

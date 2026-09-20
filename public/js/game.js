@@ -221,10 +221,11 @@ function obstacleMarkup(type) {
 }
 
 // ===== Configurações =====
-const FINISH_LINE = 72;
+let FINISH_LINE = 72;
 const START_LIVES = 3;
 const QUESTION_TIME = 120;
 const COINS_PER_HIT = 10;
+const TRACK_START = 72;
 
 // ===== Estado =====
 let currentQuestionIndex = 0;
@@ -237,6 +238,7 @@ let inputLocked = false;
 let gameOver = false;
 
 let STEP;
+let trackWidth = 0;
 let obstaclePositions = [];
 let trackObstacles = [];
 
@@ -252,6 +254,7 @@ function embaralharArray(array) {
 const playerEl = document.getElementById('player');
 const enemyEl = document.getElementById('enemy');
 const trackArea = document.getElementById('trackArea');
+const trackWorld = document.getElementById('trackWorld');
 const questionTextEl = document.getElementById('questionText');
 const optionsContainer = document.getElementById('optionsContainer');
 const obstaclesContainer = document.getElementById('obstaclesContainer');
@@ -294,8 +297,7 @@ const sfx = {
 
 // ===== Inicialização =====
 function startGame() {
-    STEP = FINISH_LINE / allQuestions.length;
-    obstaclePositions = allQuestions.map((_, i) => (i + 1) * STEP);
+    layoutTrack();
 
     trackObstacles = allQuestions.map(() => {
         const randomIndex = Math.floor(Math.random() * OBSTACLE_TYPES.length);
@@ -319,6 +321,20 @@ function startGame() {
     }, 15000);
 }
 
+function layoutTrack() {
+    const viewportWidth = Math.max(trackArea.clientWidth, 320);
+
+    // Uma distância fixa deixa cada obstáculo legível e cria a sensação
+    // de uma fase que continua fora da tela, em vez de comprimir tudo.
+    STEP = Math.max(156, Math.min(224, viewportWidth * 0.56));
+    obstaclePositions = allQuestions.map((_, i) => TRACK_START + (i * STEP));
+    FINISH_LINE = TRACK_START + (allQuestions.length * STEP) - (STEP * 0.28);
+    trackWidth = FINISH_LINE + 120;
+
+    trackWorld.style.width = `${trackWidth}px`;
+    updateCamera();
+}
+
 function renderObstacles() {
     obstaclesContainer.innerHTML = '';
     obstaclePositions.forEach((pos, i) => {
@@ -326,7 +342,7 @@ function renderObstacles() {
         const el = document.createElement('div');
         el.id = `obstacle-${i}`;
         el.className = `obstacle obstacle-${type}` + (i === 0 ? ' obstacle-current' : '');
-        el.style.left = `calc(${pos}% - 10px)`;
+        el.style.left = `${pos - 10}px`;
         el.innerHTML = obstacleMarkup(type);
         obstaclesContainer.appendChild(el);
     });
@@ -511,7 +527,7 @@ function handleWrong(timedOut) {
 // ===== Inimigo =====
 function moveEnemy() {
     if (gameOver) return;
-    enemyProgress += Math.floor(Math.random() * 2) + 1;
+    enemyProgress += Math.max(22, Math.round(STEP * 0.12));
     updatePosition(enemyEl, enemyProgress);
 
     if (enemyProgress >= FINISH_LINE) {
@@ -521,7 +537,19 @@ function moveEnemy() {
 
 function updatePosition(element, percentage) {
     const pos = Math.min(percentage, FINISH_LINE);
-    element.style.left = `calc(${pos}% + 8px)`;
+    element.style.left = `${pos + 8}px`;
+    if (element === playerEl) updateCamera();
+}
+
+function updateCamera() {
+    if (!trackWorld || !trackArea || !trackWidth) return;
+
+    const viewportWidth = trackArea.clientWidth;
+    const maxScroll = Math.max(0, trackWidth - viewportWidth);
+    const followPoint = Math.max(0, playerProgress - (viewportWidth * 0.42));
+    const scrollX = Math.min(maxScroll, followPoint);
+
+    trackWorld.style.transform = `translate3d(${-scrollX}px, 0, 0)`;
 }
 
 // ===== Fim de jogo =====
@@ -585,3 +613,15 @@ async function carregarPerguntas() {
 }
 
 carregarPerguntas();
+
+window.addEventListener('resize', () => {
+    if (!allQuestions.length) return;
+
+    layoutTrack();
+    renderObstacles();
+
+    const currentObstacle = document.getElementById(`obstacle-${currentQuestionIndex}`);
+    if (currentObstacle) currentObstacle.classList.add('obstacle-current');
+    updatePosition(playerEl, playerProgress);
+    updatePosition(enemyEl, enemyProgress);
+});
