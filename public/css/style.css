@@ -733,31 +733,30 @@ body {
 }
 
 @media (max-width: 768px) {
-    .option-btn {
-        font-size: 0.8rem; 
-    }
-    
-    .option-letter {
-        font-size: 0.9rem;
-        padding: 4px 8px;
-    }
-
     #questionText {
-        font-size: 1rem;
-        padding: 10px;
+        font-size: 0.9rem; 
+        padding: 8px; 
+        margin-bottom: 8px; 
+        min-height: auto; 
+        line-height: 1.2;
     }
 
-    
-    .pixel-sprite {
-        max-height: 25px; 
-    }
-    
-    #castle .pixel-sprite {
-        max-height: 40px;
+    #optionsContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 6px; 
     }
 
-    #trackArea {
-        height: 60px; 
+    .option-btn {
+        height: auto !important; 
+        min-height: 50px; 
+        padding: 10px !important;
+        font-size: 0.85rem;
+    }
+    
+    .option-btn span:last-child {
+        white-space: normal !important;
+        line-height: 1.2;
     }
 }
 
